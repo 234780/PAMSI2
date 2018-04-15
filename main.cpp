@@ -1,303 +1,75 @@
 #include <iostream>
 #include <cstdlib>
 #include <cmath>
-//#include "sortowanie.hh"
-#define ILOSC 40
+#include "sortowanie.cpp"
+#include "testy.cpp"
+#define ILOSC 50000
 
 using namespace std;
 
-template<typename typ>
-void Wyswietl(typ tablica[], int ilosc){
-  int i;
-  for(i=0; i<ilosc; i++)
-    cout<<tablica[i]<<", ";
-  cout<<endl;
-}
-
-//*********************************************************************************************************
-//*******************SORTOWANIE PRZEZ SCALANIE*************************************************************
-template <typename typ>
-void Scal(typ tablica[], const int poczatek, const int srodek, const int koniec);
-
-template <typename typ>
-void SortujScalanie(typ tablica[], const int poczatek,const int koniec){
-  int srodek;
-  
-  if(poczatek!=koniec){ // jesli tablica ma wiecej niz 1 element
-    srodek=(poczatek+koniec)/2; //ustalamy miejsce podzialu tablicy
-    SortujScalanie(tablica, poczatek, srodek); //sortujemy lewa czesc
-    SortujScalanie(tablica, srodek+1, koniec); //sortujemy prawa
-    Scal<typ>(tablica, poczatek, srodek, koniec); // i scalamy tablice
-  } //koniec if
-}
-template <typename typ>
-void Scal(typ tablica[],const int poczatek,const int srodek,const int koniec){
-  typ pomocnicza[koniec-poczatek+1]; // pomocnicza tablica odpowiedniej dlugosci
-  int i;
-  int lewy=poczatek; // indeks w lewej podtablicy
-  int prawy=srodek+1; // indeks w prawej podtablicy
-  int obecny=poczatek; //indeks gdzie wpisywac do tablicy wynikowej
-
-  for (i=0; i<=(koniec-poczatek); i++)
-    pomocnicza[i]=tablica[poczatek+i];//przepisujemy wartosci z tablicy
-
-  while(lewy<=srodek && prawy<=koniec){ // dopoki nie skoncza sie elementy jednej z podtablic
-    if(pomocnicza[lewy-poczatek] <= pomocnicza[prawy-poczatek]){
-      tablica[obecny]=pomocnicza[lewy-poczatek];
-      lewy++; //zwiekszamy indeks z lewej
-    }
-    else{
-      tablica[obecny]=pomocnicza[prawy-poczatek];
-      prawy++; // zwiekszamy indeks z prawej
-  }
-  obecny++; // zwiekszamy indeks mowiacy gdzie wpisywac do tablicy wynikowej
-  }//koniec while
-
-  //gdy wykorzystalismy wszystkie z drugiej podtablicy
-  while(lewy <= srodek){
-    tablica[obecny]=pomocnicza[lewy-poczatek];
-    obecny++;
-    lewy++;
-  }
-
-  //gdy wykorzystalismy wszystkie z pierwszewj podtablicy, druga musi byc ustawiona ok ;)
-  //wiec wszystko powinno juz byc wpisane dobrze do odpowiedniej tablicy
-}
-
-
-//*********************************************************************************************************
-//*******************SORTOWANIE QUICKSORT******************************************************************
-template <typename typ>
-int WybierzPorownanie(typ tablica[], int lewy, int prawy){
-  return (prawy+lewy)/2;
-}
-
-template <typename typ>
-void SortujSzybkie(typ tablica[], int lewy, int prawy){
-  int indeks; // indeks elementu, z ktorym bedziemy porownywac dzielac tablice
-  int osiowy = lewy-1; // indeks granicy, aktualnie stoi przed pierwszym elementem
-  int licznik = lewy; // pomoc w przemieszczaniu sie po tablicy
-  typ pomocniczy; // zmienna potrzebna do realizacji zamian
-  typ porownanie; // wartosc, z ktora porownujemy
-
-  if (prawy<=lewy) return;
-  
-  //ustawiamy porownnaie na koniec tablicy
-  indeks = WybierzPorownanie(tablica, lewy, prawy);
-  porownanie=tablica[indeks];
-  pomocniczy=tablica[prawy];
-  tablica[prawy]=tablica[indeks];
-  tablica[indeks]=pomocniczy;
-
- 
-    while(licznik < prawy){ // dopoki nie dojdziemy do konca tablicy
-      if(tablica[licznik] < porownanie){
-	if(osiowy+1 != licznik){ // zeby nie zamieniac z samym soba ;)
-	  pomocniczy=tablica[osiowy+1];
-	  tablica[osiowy+1]=tablica[licznik];
-	  tablica[licznik]=pomocniczy;
-	}
-	osiowy++; //przesuwamy granice
-      }// if
-      licznik++;
-    }// koniec while
-
-
-    // ustawiamy porownanie na odpowiedniej pozycji
-    if(osiowy+1 != prawy){ // zeby nie zamieniac z samym soba ;)
-      pomocniczy=tablica[osiowy+1];
-      tablica[osiowy+1]=tablica[prawy];
-      tablica[prawy]=pomocniczy;
-    }
-    osiowy++; //przesuwamy granice
-
-      SortujSzybkie(tablica, lewy, osiowy-1); // i rekurencyjnie sortujemy podtablice
-      SortujSzybkie(tablica, osiowy+1, prawy);
- 
-}
-
-//*************************************************************************************
-//***************************SORTOWANIE PRZEZ KOPCOWANIE********************************
-template<typename typ>
-void SortujKopcowanie(typ tablica[], int dlugosc);
-
-template<typename typ>
-void MaxKopiec(typ tablica[], int dlugosc, int indeks_rodzica);
-
-template<typename typ>
-void SortujKopcowanie(typ tablica[], int dlugosc){
-  int ostrodzic=dlugosc/2-1;
-  int i;
-  typ pomocniczy;
-
-  for(i=ostrodzic; i>=0; i--) // od ost rodzica do korzenia
-    MaxKopiec(tablica, dlugosc, i);
-
-  for(i=dlugosc-1; i>0; i--){
-    pomocniczy=tablica[0];
-    tablica[0]=tablica[i];
-    tablica[i]=pomocniczy;
-    dlugosc--;
-    MaxKopiec(tablica, dlugosc, 0);
-  }
-}
-template<typename typ>
-void MaxKopiec(typ tablica[], int rozmiar, int indeks_rodzica){
-  int maxindeks=indeks_rodzica;
-  int lewy=indeks_rodzica*2+1;
-  int prawy=indeks_rodzica*2+2;
-  typ pomocniczy;
-
-  if(lewy<rozmiar && tablica[lewy]>tablica[maxindeks])
-    maxindeks=lewy;
-
-  if(prawy<rozmiar && tablica[prawy]>tablica[maxindeks])
-    maxindeks=prawy;
-
-  if(maxindeks!=indeks_rodzica){
-    pomocniczy=tablica[maxindeks];
-    tablica[maxindeks]=tablica[indeks_rodzica];
-    tablica[indeks_rodzica]=pomocniczy;
-    MaxKopiec(tablica, rozmiar, maxindeks);
-  }
-}
-
-
-//*****************************************************************************************
-//*************SORTOWNAIE PRZEZ WSTAWNIANIE**************************************************
-
-template <typename typ>
-void SortujWstawianie(typ tablica[], int dlugosc){
-  int i, j;
-  typ pomocniczy;
-
-  for(i=1; i<dlugosc; i++){
-    pomocniczy=tablica[i];
-    for(j=i; j>0 && pomocniczy<tablica[j-1]; j--)
-      tablica[j]=tablica[j-1];
-    tablica[j]=pomocniczy;
-  }
-}
-
-//**********************************************************************************************
-//********************SORTOWANIE INTROSPEKTYWNE************************************************
-template<typename typ>
-void SortujIntro(typ tablica[], int dlugosc, int max);
-
-template<typename typ>
-int Podziel(typ tablica[], int lewy, int prawy);
-
-  
-template<typename typ>
-void SortujIntrospektywne(typ tablica[], int dlugosc){
-  int max=(int)floor(2*log(dlugosc)/log(2));
-    SortujIntro(tablica, dlugosc, max);
-  SortujWstawianie(tablica, dlugosc+1);
-}
-
-
-template<typename typ>
-void SortujIntro(typ tablica[], int dlugosc, int max){
-  int i;
-
-  if(max<=0){
-      SortujKopcowanie(tablica, dlugosc+1);
-    return;
-  }
-  
-  i=Podziel(tablica,0,dlugosc);
-   
-  if(i>9){
-     SortujIntro(tablica, i, max-1);
-  }
-    
-  if( dlugosc-1-i>9){
-     SortujIntro(tablica+i+1, dlugosc-1-i, max-1);
-  }
-}
-
-
-template<typename typ>
-int Podziel(typ tablica[], int lewy, int prawy){
-  typ pomocniczy;
-  int licznik=lewy;
-  typ porownanie=tablica[prawy];
-  int osiowy=lewy-1;
-  
-  while(licznik < prawy){ // dopoki nie dojdziemy do konca tablicy
-    if(tablica[licznik] < porownanie){
-      if(osiowy+1 != licznik){ // zeby nie zamieniac z samym soba ;)
-	pomocniczy=tablica[osiowy+1];
-	tablica[osiowy+1]=tablica[licznik];
-	tablica[licznik]=pomocniczy;
-      }
-      osiowy++; //przesuwamy granice
-    }// if
-    licznik++;
-  }// koniec while
-
-
-  // ustawiamy porownanie na odpowiedniej pozycji
-  if(osiowy+1 != prawy){ // zeby nie zamieniac z samym soba ;)
-    pomocniczy=tablica[osiowy+1];
-    tablica[osiowy+1]=tablica[prawy];
-    tablica[prawy]=pomocniczy;
-  }
-  //osiowy++; //przesuwamy granice
-  return osiowy;
-}
-
-
 int main(){
   int tablica[ILOSC];
-  int tablica2[ILOSC], tablica3[ILOSC], tablica4[ILOSC],tablica5[ILOSC];
-  int i;
+  //int tablica2[ILOSC], tablica3[ILOSC], tablica4[ILOSC],tablica5[ILOSC];
+  int i, j;
+  int ilosc_testow=100;
   int pomoc;
   int indeks1, indeks2;
+  double scalanie=0, szybkie=0, kopcowanie=0, introspektywne=0;
 
   srand(time(NULL)); //generator pseudolosowy
+
+
   
   for(i=0; i<ILOSC; i++){
     tablica[i]=i+3;
   }
 
-
-  for(i=0; i<ILOSC; i++){ // 100 mieszan
+  for(j=0; j<ilosc_testow; j++){
+  for(i=0; i<ILOSC; i++){ // troche mieszan
     indeks1=rand()%ILOSC; //losujemy dwa indeksy
     indeks2=rand()%ILOSC;
     pomoc=tablica[indeks1];
     tablica[indeks1]=tablica[indeks2]; //zamieniamy
     tablica[indeks2]=pomoc;
   }
-
-  for(i=0; i<ILOSC; i++){
-    tablica2[i]=tablica[i];
-    tablica3[i]=tablica[i];
-    tablica4[i]=tablica[i];
-    tablica5[i]=tablica[i];
+  Test<int>(tablica, ILOSC, scalanie, szybkie, kopcowanie, introspektywne);
+  
   }
 
-  cout<<"NIEPOSORTOWANA: "<<endl;
-  Wyswietl<int>(tablica, ILOSC);
+  cout<<"SORTOWANIE "<<ILOSC<<" ELEMENTOW"<<endl;
+  cout<<"SCALANIE: "<<scalanie<<endl;
+  cout<<"SZYBKIE: "<<szybkie<<endl;
+  cout<<"KOPCOWANIE: "<<kopcowanie<<endl;
+  cout<<"INTROSPEKTYWNE: "<<introspektywne<<endl;
+  
+  // for(i=0; i<ILOSC; i++){
+  // tablica2[i]=tablica[i];
+  // tablica3[i]=tablica[i];
+  // tablica4[i]=tablica[i];
+  // tablica5[i]=tablica[i];
+  //}
 
-  cout<<endl<<"SCALANIE: "<<endl;
-  SortujScalanie<int>(tablica, 0, ILOSC-1);
-  Wyswietl<int>(tablica, ILOSC);
+  //  cout<<"NIEPOSORTOWANA: "<<endl;
+  //Wyswietl<int>(tablica, ILOSC);
 
-  cout<<endl<<"SZYBKIE: "<<endl;
-  SortujSzybkie<int>(tablica2, 0, ILOSC-1);
-  Wyswietl<int>(tablica2, ILOSC);
+  //cout<<endl<<"SCALANIE: "<<endl;
+  //SortujScalanie<int>(tablica, 0, ILOSC-1);
+  //Wyswietl<int>(tablica, ILOSC);
 
-  cout<<endl<<"KOPCOWANIE: "<<endl;
-  SortujKopcowanie<int>(tablica3, ILOSC);
-  Wyswietl<int>(tablica3, ILOSC);
+  // cout<<endl<<"SZYBKIE: "<<endl;
+  //SortujSzybkie<int>(tablica2, 0, ILOSC-1);
+  //Wyswietl<int>(tablica2, ILOSC);
 
-  cout<<endl<<"WSTAWIANIE: "<<endl;
-  SortujWstawianie<int>(tablica4, ILOSC);
-  Wyswietl<int>(tablica4, ILOSC);
+  // cout<<endl<<"KOPCOWANIE: "<<endl;
+  //SortujKopcowanie<int>(tablica3, ILOSC);
+  //Wyswietl<int>(tablica3, ILOSC);
 
-  cout<<endl<<"INTROSPEKTYWNE: "<<endl;
-  SortujIntrospektywne<int>(tablica5, ILOSC-1);
-  Wyswietl<int>(tablica5, ILOSC);
+  //cout<<endl<<"WSTAWIANIE: "<<endl;
+  //SortujWstawianie<int>(tablica4, ILOSC);
+  //Wyswietl<int>(tablica4, ILOSC);
+
+  //cout<<endl<<"INTROSPEKTYWNE: "<<endl;
+  //SortujIntrospektywne<int>(tablica5, ILOSC-1);
+  //Wyswietl<int>(tablica5, ILOSC);
   return 1;
 }
