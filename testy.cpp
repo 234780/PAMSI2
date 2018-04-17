@@ -10,6 +10,58 @@ template <class typ>
 bool SprawdzSortowanie(typ tablica[], int dlugosc );
 
 template <class typ>
+void TestujScalanie(typ tablica[], int dlugosc, double &scalanie){
+  clock_t start, stop;
+  double roznica;
+
+  start=clock();
+  SortujScalanie<typ>(tablica, 0, dlugosc-1);
+  stop=clock();
+  if(!SprawdzSortowanie(tablica, dlugosc)){cout<<"ERROR!"; return;}
+  roznica=(stop-start)/(double)CLOCKS_PER_SEC;
+  scalanie=scalanie+roznica;
+}
+
+template <class typ>
+void TestujSzybkie(typ tablica[], int dlugosc, double &szybkie){
+  clock_t start, stop;
+  double roznica;
+
+  start=clock();
+  SortujSzybkie<typ>(tablica, 0, dlugosc-1);
+  stop=clock();
+  if(!SprawdzSortowanie(tablica, dlugosc)){cout<<"ERROR!"; return;}
+  roznica=(stop-start)/(double)CLOCKS_PER_SEC;
+  szybkie=szybkie+roznica;
+}
+
+template <class typ>
+void TestujKopcowanie(typ tablica[], int dlugosc, double &kopcowanie){
+  clock_t start, stop;
+  double roznica;
+
+  start=clock();
+  SortujKopcowanie<typ>(tablica, dlugosc);
+  stop=clock();
+  if(!SprawdzSortowanie(tablica, dlugosc)){cout<<"ERROR!"; return;}
+  roznica=(stop-start)/(double)CLOCKS_PER_SEC;
+  kopcowanie=kopcowanie+roznica;
+}
+
+template <class typ>
+void TestujIntrospektywne(typ tablica[], int dlugosc, double&introspektywne){
+  clock_t start, stop;
+  double roznica;
+
+  start=clock();
+  SortujIntrospektywne<typ>(tablica, dlugosc);
+  stop=clock();
+  if(!SprawdzSortowanie(tablica, dlugosc)){cout<<"ERROR!"; return;}
+  roznica=(stop-start)/(double)CLOCKS_PER_SEC;
+  introspektywne=introspektywne+roznica;
+}
+
+template <class typ>
 void Test(typ tablica[], int dlugosc, double &scalanie, double &szybkie, double&kopcowanie, double &introspektywne){
   clock_t start, stop;
   double roznica;
@@ -32,7 +84,7 @@ void Test(typ tablica[], int dlugosc, double &scalanie, double &szybkie, double&
    start=clock(); // mierzymy czas dzialania sortowania przez scalanie
    SortujSzybkie<typ>(t1, 0, dlugosc-1);
    stop=clock();
-   if(!SprawdzSortowanie(t1, dlugosc)){cout<<"ERROR!"; return;}
+   // if(!SprawdzSortowanie(t1, dlugosc)){cout<<"ERROR!"; return;}
    roznica=(stop-start)/(double)CLOCKS_PER_SEC;
    szybkie=szybkie+roznica;
    
@@ -42,7 +94,7 @@ void Test(typ tablica[], int dlugosc, double &scalanie, double &szybkie, double&
    start=clock(); // mierzymy czas dzialania sortowania przez scalanie
    SortujKopcowanie<typ>(t1, dlugosc);
    stop=clock();
-   if(!SprawdzSortowanie(t1, dlugosc)){cout<<"ERROR!"; return;}
+   //if(!SprawdzSortowanie(t1, dlugosc)){cout<<"ERROR!"; return;}
    roznica=(stop-start)/(double)CLOCKS_PER_SEC;
    kopcowanie=kopcowanie+roznica;
    
@@ -52,9 +104,10 @@ void Test(typ tablica[], int dlugosc, double &scalanie, double &szybkie, double&
    start=clock(); // mierzymy czas dzialania sortowania przez scalanie
    SortujIntrospektywne<typ>(t1, dlugosc);
    stop=clock();
-   if(!SprawdzSortowanie(t1, dlugosc)){cout<<"ERROR!"; return;}
+   // if(!SprawdzSortowanie(t1, dlugosc)){cout<<"ERROR!"; return;}
    roznica=(stop-start)/(double)CLOCKS_PER_SEC;
    introspektywne=introspektywne+roznica;
+
   
 }
 template <class typ>
@@ -88,7 +141,7 @@ void LosowaTablica(typ tablica[], const int rozmiar){
     tablica[indeks2]=pomoc;
   }
 
-  Wyswietl(tablica, rozmiar);
+  //Wyswietl(tablica, rozmiar);
 }
 
 template<class typ>
@@ -96,7 +149,7 @@ void OdwrotnaTablica(typ tablica[], const int rozmiar){
   int i;
   for(i=0; i<rozmiar; i++)
     tablica[i]=rozmiar-i;
-  Wyswietl(tablica, rozmiar);
+  //Wyswietl(tablica, rozmiar);
 }
 
 
@@ -125,7 +178,7 @@ void Tablica(typ tablica[], const int rozmiar, double procent){
       tablica[indeks2]=pomoc;
     }
   }
-  Wyswietl(tablica, rozmiar);  
+  //Wyswietl(tablica, rozmiar);  
 }
 
 
@@ -135,7 +188,7 @@ void PosortowanaTablica(typ tablica[], const int rozmiar){
   for (i=0; i<rozmiar; i++)
     tablica[i]=i;
 
-  Wyswietl(tablica, rozmiar);
+  //Wyswietl(tablica, rozmiar);
 }
 
 

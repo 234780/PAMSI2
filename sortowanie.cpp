@@ -173,7 +173,7 @@ void SortujWstawianie(typ tablica[], int dlugosc){
 template<typename typ>
 void SortujIntrospektywne(typ tablica[], int dlugosc){
   int max=(int)floor(2*log(dlugosc)/log(2));
-    SortujIntro(tablica, dlugosc, max);
+  SortujIntro(tablica, dlugosc, max);
   SortujWstawianie(tablica, dlugosc+1);
 }
 
@@ -187,7 +187,7 @@ void SortujIntro(typ tablica[], int dlugosc, int max){
     return;
   }
   
-  i=Podziel(tablica,0,dlugosc);
+  i=Podziel(tablica,0,dlugosc-1);
    
   if(i>9){
      SortujIntro(tablica, i, max-1);
