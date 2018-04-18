@@ -3,12 +3,11 @@
 #include <cmath>
 #include "sortowanie.cpp"
 #include "testy.cpp"
-#define ILOSC 50000
+#define ILOSC 10000000
 
-using namespace std;
 
 int main(){
-  int tablica[ILOSC];
+  int* tablica=new int [ILOSC];
   int i;
   int ilosc_testow=100; 
   double scalanie=0, szybkie=0, kopcowanie=0, introspektywne=0;
@@ -18,7 +17,7 @@ int main(){
     LosowaTablica<int>(tablica, ILOSC);
     TestujScalanie<int>(tablica, ILOSC, scalanie);
   }
-
+  /*
   for(i=0; i<ilosc_testow; i++){
     LosowaTablica<int>(tablica, ILOSC);
     TestujSzybkie<int>(tablica, ILOSC, szybkie);
@@ -31,7 +30,7 @@ int main(){
     LosowaTablica<int>(tablica, ILOSC);
     TestujIntrospektywne<int>(tablica, ILOSC, introspektywne);
   }
-
+  */
     cout.setf(ios::fixed); //ustawuany dokladnosc
   cout<<"SORTOWANIE "<<ILOSC<<" ELEMENTOW"<<endl;
   cout<<"SCALANIE: "<<scalanie<<endl;
@@ -40,7 +39,7 @@ int main(){
   cout<<"KOPCOWANIE: "<<kopcowanie<<endl;
   cout<<"INTROSPEKTYWNE: "<<introspektywne<<endl;
 scalanie=0, szybkie=0, kopcowanie=0, introspektywne=0;
-  
+/*
   cout<<"ODWROTNA"<<endl;
   for(i=0; i<ilosc_testow; i++){
     OdwrotnaTablica<int>(tablica, ILOSC);
@@ -261,6 +260,7 @@ scalanie=0, szybkie=0, kopcowanie=0, introspektywne=0;
   cout<<"SZYBKIE: "<<szybkie<<endl;
   cout<<"KOPCOWANIE: "<<kopcowanie<<endl;
   cout<<"INTROSPEKTYWNE: "<<introspektywne<<endl;
-
+*/
+  delete [] tablica;
   return 1;
 }
