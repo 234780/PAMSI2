@@ -10,6 +10,19 @@ template <class typ>
 bool SprawdzSortowanie(typ tablica[], int dlugosc );
 
 template <class typ>
+void TestujWstawianie(typ tablica[], int dlugosc, double &wstawianie){
+  clock_t start, stop;
+  double roznica;
+
+  start=clock();
+  SortujWstawianie<typ>(tablica,dlugosc);
+  stop=clock();
+  if(!SprawdzSortowanie(tablica, dlugosc)){cout<<"ERROR!"; return;}
+  roznica=(stop-start)/(double)CLOCKS_PER_SEC;
+  wstawianie=wstawianie+roznica;
+}
+
+template <class typ>
 void TestujScalanie(typ tablica[], int dlugosc, double &scalanie){
   clock_t start, stop;
   double roznica;

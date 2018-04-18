@@ -13,32 +13,33 @@ int main(){
   double scalanie=0, szybkie=0, kopcowanie=0, introspektywne=0;
   
   cout<<"LOSOWA"<<endl;
+  cout<<"SORTOWANIE "<<ILOSC<<" ELEMENTOW"<<endl;
+  cout.setf(ios::fixed); //ustawuany dokladnosc
   for(i=0; i<ilosc_testow; i++){
     LosowaTablica<int>(tablica, ILOSC);
     TestujScalanie<int>(tablica, ILOSC, scalanie);
   }
-  /*
+  cout<<"SCALANIE: "<<scalanie<<endl;
+
   for(i=0; i<ilosc_testow; i++){
     LosowaTablica<int>(tablica, ILOSC);
     TestujSzybkie<int>(tablica, ILOSC, szybkie);
   }
+  cout<<"SZYBKIE: "<<szybkie<<endl;
+
   for(i=0; i<ilosc_testow; i++){
     LosowaTablica<int>(tablica, ILOSC);
     TestujKopcowanie<int>(tablica, ILOSC, kopcowanie);
   }
+  cout<<"KOPCOWANIE: "<<kopcowanie<<endl;
+
   for(i=0; i<ilosc_testow; i++){
     LosowaTablica<int>(tablica, ILOSC);
     TestujIntrospektywne<int>(tablica, ILOSC, introspektywne);
   }
-  */
-    cout.setf(ios::fixed); //ustawuany dokladnosc
-  cout<<"SORTOWANIE "<<ILOSC<<" ELEMENTOW"<<endl;
-  cout<<"SCALANIE: "<<scalanie<<endl;
-
-  cout<<"SZYBKIE: "<<szybkie<<endl;
-  cout<<"KOPCOWANIE: "<<kopcowanie<<endl;
   cout<<"INTROSPEKTYWNE: "<<introspektywne<<endl;
-scalanie=0, szybkie=0, kopcowanie=0, introspektywne=0;
+  
+  //scalanie=0, szybkie=0, kopcowanie=0, introspektywne=0;
 /*
   cout<<"ODWROTNA"<<endl;
   for(i=0; i<ilosc_testow; i++){

@@ -28,7 +28,7 @@ void SortujScalanie(typ tablica[], const int poczatek,const int koniec){
 }
 template <typename typ>
 void Scal(typ tablica[],const int poczatek,const int srodek,const int koniec){
-  typ pomocnicza[koniec-poczatek+1]; // pomocnicza tablica odpowiedniej dlugosci
+  typ * pomocnicza=new int [koniec-poczatek+1]; // pomocnicza tablica odpowiedniej dlugosci
   int i;
   int lewy=poczatek; // indeks w lewej podtablicy
   int prawy=srodek+1; // indeks w prawej podtablicy
@@ -58,6 +58,8 @@ void Scal(typ tablica[],const int poczatek,const int srodek,const int koniec){
 
   //gdy wykorzystalismy wszystkie z pierwszewj podtablicy, druga musi byc ustawiona ok ;)
   //wiec wszystko powinno juz byc wpisane dobrze do odpowiedniej tablicy
+
+  delete [] pomocnicza;
 }
 
 
