@@ -43,7 +43,7 @@ void TestujSzybkie(typ tablica[], int dlugosc, double &szybkie){
   start=clock();
   SortujSzybkie<typ>(tablica, 0, dlugosc-1);
   stop=clock();
-  if(!SprawdzSortowanie(tablica, dlugosc)){cout<<"ERROR!"; return;}
+  if(!SprawdzSortowanie(tablica, dlugosc)){cout<<"ERROR!"<<endl; return;}
   roznica=(stop-start)/(double)CLOCKS_PER_SEC;
   szybkie=szybkie+roznica;
 }
@@ -69,7 +69,7 @@ void TestujIntrospektywne(typ tablica[], int dlugosc, double&introspektywne){
   start=clock();
   SortujIntrospektywne<typ>(tablica, dlugosc);
   stop=clock();
-  if(!SprawdzSortowanie(tablica, dlugosc)){cout<<"ERROR!"; return;}
+  //if(!SprawdzSortowanie(tablica, dlugosc)){cout<<"ERROR!"; return;}
   roznica=(stop-start)/(double)CLOCKS_PER_SEC;
   introspektywne=introspektywne+roznica;
 }
@@ -79,7 +79,7 @@ void Test(typ tablica[], int dlugosc, double &scalanie, double &szybkie, double&
   clock_t start, stop;
   double roznica;
   int i;
-  typ t1[dlugosc];
+  typ* t1=new typ [dlugosc];
 
   for(i=0; i<dlugosc; i++)
     t1[i]=tablica[i];
@@ -107,7 +107,7 @@ void Test(typ tablica[], int dlugosc, double &scalanie, double &szybkie, double&
    start=clock(); // mierzymy czas dzialania sortowania przez scalanie
    SortujKopcowanie<typ>(t1, dlugosc);
    stop=clock();
-   //if(!SprawdzSortowanie(t1, dlugosc)){cout<<"ERROR!"; return;}
+   if(!SprawdzSortowanie(t1, dlugosc)){cout<<"ERROR!"; return;}
    roznica=(stop-start)/(double)CLOCKS_PER_SEC;
    kopcowanie=kopcowanie+roznica;
    

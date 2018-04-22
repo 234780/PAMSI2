@@ -174,29 +174,25 @@ void SortujWstawianie(typ tablica[], int dlugosc){
 //********************SORTOWANIE INTROSPEKTYWNE************************************************
 template<typename typ>
 void SortujIntrospektywne(typ tablica[], int dlugosc){
-  int max=(int)floor(2*log(dlugosc)/log(2));
-  SortujIntro(tablica, dlugosc, max);
-  SortujWstawianie(tablica, dlugosc+1);
+  int max=(int)floor(3*log(dlugosc)/log(2));
+  SortujIntro(tablica,0, dlugosc-1, max);
 }
 
 
 template<typename typ>
-void SortujIntro(typ tablica[], int dlugosc, int max){
+void SortujIntro(typ tablica[], int poczatek, int koniec, int max){
   int i;
+  int dlugosc=koniec-poczatek+1;
 
-  if(max<=0){
-      SortujKopcowanie(tablica, dlugosc+1);
+  if(dlugosc<=1)
     return;
+  if (max<=0){
+    SortujKopcowanie<int>(tablica, dlugosc);
   }
-  
-  i=Podziel(tablica,0,dlugosc-1);
-   
-  if(i>9){
-     SortujIntro(tablica, i, max-1);
-  }
-    
-  if( dlugosc-1-i>9){
-     SortujIntro(tablica+i+1, dlugosc-1-i, max-1);
+  else{
+    i=Podziel<typ>(tablica,poczatek, koniec);
+    SortujIntro<typ>(tablica, poczatek, i-1, max-2);
+    SortujIntro<typ>(tablica, i+1, koniec, max-2);
   }
 }
 
@@ -227,6 +223,6 @@ int Podziel(typ tablica[], int lewy, int prawy){
     tablica[osiowy+1]=tablica[prawy];
     tablica[prawy]=pomocniczy;
   }
-  //osiowy++; //przesuwamy granice
+   osiowy++; //przesuwamy granice
   return osiowy;
 }
