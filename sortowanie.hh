@@ -26,7 +26,7 @@ template <typename typ>
 void SortujWstawianie(typ tablica[], int dlugosc);
 
 template<typename typ>
-void SortujIntro(typ tablica[], int dlugosc, int max);
+void SortujIntro(typ tablica[], int poczatek, int koniec, int max);
 
 template<typename typ>
 int Podziel(typ tablica[], int lewy, int prawy);
